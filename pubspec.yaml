@@ -41,6 +41,7 @@ dependencies:
   path_provider:
   flutter_tts: ^3.8.3
   flutter_spinkit:
+  get:
 
 
 dev_dependencies:
