@@ -28,11 +28,19 @@ class ImagePreview extends StatelessWidget {
       ),
       child: imagePath == null
           ? const Center(
-        child: Text(
-          "No image selected",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.camera_alt_outlined,
+              size: 80,
+            ),
+            Text(
+              "No image selected",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       )
           : Image.file(

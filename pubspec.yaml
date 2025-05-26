@@ -40,7 +40,7 @@ dependencies:
   pdfx:
   path_provider:
   flutter_tts: ^3.8.3
-
+  flutter_spinkit:
 
 
 dev_dependencies:
