@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
-import '../../utils/responsive.dart';
+
 import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
+    // Initialize animation controllers
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
@@ -32,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
     );
 
+    // Create animations
     _fadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -48,7 +49,10 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.elasticOut,
     ));
 
+    // Start animations
     _startAnimations();
+
+    // Navigate to home screen after delay
     _navigateToHome();
   }
 
@@ -62,10 +66,18 @@ class _SplashScreenState extends State<SplashScreen>
   void _navigateToHome() async {
     await Future.delayed(const Duration(milliseconds: 3500));
     if (mounted) {
-      Get.off(
-            () => const HomeScreen(),
-        transition: Transition.fadeIn,
-        duration: const Duration(milliseconds: 800),
+      Navigator.of(context).pushReplacement(
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+          const HomeScreen(), // Replace with your home screen
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 800),
+        ),
       );
     }
   }
@@ -103,8 +115,8 @@ class _SplashScreenState extends State<SplashScreen>
                   return Transform.scale(
                     scale: _scaleAnimation.value,
                     child: Container(
-                      width: Responsive.iconSize(120),
-                      height: Responsive.iconSize(120),
+                      width: 120,
+                      height: 120,
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.2),
                         shape: BoxShape.circle,
@@ -118,7 +130,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                       child: Icon(
                         Icons.text_fields_rounded,
-                        size: Responsive.iconSize(60),
+                        size: 60,
                         color: Colors.white,
                       ),
                     ),
@@ -126,7 +138,7 @@ class _SplashScreenState extends State<SplashScreen>
                 },
               ),
 
-              SizedBox(height: Responsive.padding(30)),
+              const SizedBox(height: 30),
 
               // App Title
               AnimatedBuilder(
@@ -136,20 +148,20 @@ class _SplashScreenState extends State<SplashScreen>
                     opacity: _fadeAnimation.value,
                     child: Column(
                       children: [
-                        Text(
+                        const Text(
                           'OCR Reader',
                           style: TextStyle(
-                            fontSize: Responsive.fontSize(32),
+                            fontSize: 32,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             letterSpacing: 1.2,
                           ),
                         ),
-                        SizedBox(height: Responsive.padding(8)),
+                        const SizedBox(height: 8),
                         Text(
                           'Text Recognition & Speech',
                           style: TextStyle(
-                            fontSize: Responsive.fontSize(16),
+                            fontSize: 16,
                             color: Colors.white.withOpacity(0.9),
                             fontWeight: FontWeight.w400,
                           ),
@@ -160,7 +172,7 @@ class _SplashScreenState extends State<SplashScreen>
                 },
               ),
 
-              SizedBox(height: Responsive.padding(60)),
+              const SizedBox(height: 60),
 
               // SpinKit Loading Animation
               AnimatedBuilder(
@@ -172,14 +184,14 @@ class _SplashScreenState extends State<SplashScreen>
                       children: [
                         SpinKitWave(
                           color: Colors.white,
-                          size: Responsive.iconSize(40),
+                          size: 40.0,
                           duration: const Duration(milliseconds: 1200),
                         ),
-                        SizedBox(height: Responsive.padding(20)),
+                        const SizedBox(height: 20),
                         Text(
                           'Loading...',
                           style: TextStyle(
-                            fontSize: Responsive.fontSize(16),
+                            fontSize: 16,
                             color: Colors.white.withOpacity(0.8),
                             fontWeight: FontWeight.w300,
                           ),
@@ -190,9 +202,9 @@ class _SplashScreenState extends State<SplashScreen>
                 },
               ),
 
-              SizedBox(height: Responsive.padding(80)),
+              const SizedBox(height: 80),
 
-              // Version Info
+              // Version or Additional Info
               AnimatedBuilder(
                 animation: _fadeAnimation,
                 builder: (context, child) {
@@ -201,7 +213,7 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Text(
                       'Version 1.0.0',
                       style: TextStyle(
-                        fontSize: Responsive.fontSize(12),
+                        fontSize: 12,
                         color: Colors.white.withOpacity(0.6),
                         fontWeight: FontWeight.w300,
                       ),
@@ -216,3 +228,4 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
+
